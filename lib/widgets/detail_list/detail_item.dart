@@ -12,11 +12,11 @@ class DetailItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FittedBox(
-      child: CachedNetworkImage(
+      //child: CachedNetworkImage(
             //placeholder: CircularProgressIndicator(),
-            imageUrl: model.url,
-      )
-      //child: Image.network(model.url, width: 640, height: 360)
+            //imageUrl: model.url,
+      //)
+      child: Image.network(model.url, width: 640, height: 360)
       ,fit: BoxFit.fill,
     );
   }

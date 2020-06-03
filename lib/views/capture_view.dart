@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:captube/locator.dart';
 import 'package:captube/routing/route_names.dart';
 import 'package:captube/services/navigation_service.dart';
+import 'package:captube/viewmodels/episode_list_view_model.dart';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
   
@@ -16,8 +17,10 @@ class CaptureView extends StatefulWidget {
 
 class _CaptureViewState extends State<CaptureView> {
   bool _isLoading = false;
-  var _data = "Not loaded";
+  var _data = "";
+  //var _data = "Not loaded";
   var _apiURL = 'http://captube.net/api/v1/capture';
+  EpisodeListViewModel _elvm;
  
   void _fetchData(String url) async {
 //    Map<String, String> headers = {'Content-Type': "application/json"};
@@ -47,7 +50,8 @@ class _CaptureViewState extends State<CaptureView> {
           _data = json.decode(response.body)['id'];
         });
         print("Response: ${response.statusCode}");
-        Navigator.pushNamed(context, '/detail?id=$_data');
+        EpisodeListViewModel().navigateToEpisode(_data);
+        //Navigator.pushNamed(context, '/detail?id=$_data');
       } else {
         throw Exception('Failed to load data');
       }
@@ -96,9 +100,9 @@ class _CaptureViewState extends State<CaptureView> {
         ),
         SizedBox(height: 20.0,),
         _isLoading ? CircularProgressIndicator() 
-        :Text(""),
+        ://Text(""),
         //:_navigationService.navigateTo(EpisodeDetailsRoute, queryParams: {'id': _data})
-          //Text("id: $_data")
+          Text("$_data")
               //Text(_isLoading ? "Loading.." : _data),
       ],
     )
