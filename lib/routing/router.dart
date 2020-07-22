@@ -1,9 +1,9 @@
 //import 'dart:core';
 import 'package:captube/routing/route_names.dart';
 import 'package:captube/views/capture_view.dart';
+import 'package:captube/views/captured_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:captube/views/episodes_view.dart';
 import 'package:captube/views/details_view.dart';
 
 import 'package:captube/extension/string_extension.dart';
@@ -12,15 +12,18 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   var routingData = settings.name.getRoutingData;
   switch (routingData.route) {
     case HomeRoute:
-      return _getPageRoute(EpisodesView(), settings);
-    case CaptureRoute:
+//    case CaptureRoute:
       return _getPageRoute(CaptureView(), settings);
+    case CapturedRoute:
+      var url = routingData['url'].toString(); // Get the id from the data.
+      var lang = routingData['lang'].toString(); // Get the id from the data.
+      return _getPageRoute(CapturedView(url: url, lang: lang), settings);
     case EpisodeDetailsRoute:
       var id = routingData['id'].toString(); // Get the id from the data.
       //var id = int.tryParse(routingData['id']); // Get the id from the data.
-      return _getPageRoute(DetailsView(id: id), settings);
+      return _getPageRoute(DetailsView(url: id), settings);
     default:
-      return _getPageRoute(EpisodesView(), settings);
+      return _getPageRoute(CaptureView(), settings);
   }
 }
 

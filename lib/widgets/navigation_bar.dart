@@ -28,38 +28,8 @@ class NavigationBar extends StatelessWidget {
         ),
 
         actions: <Widget>[
-        /*  FlatButton(
-            child: Text(
-              "Home",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 17.0,
-              ),
-            ),
-            onPressed: (){
-              locator<NavigationService>().navigateTo(HomeRoute);
-              print("pressed");
-            },
-          ),
-        
-          FlatButton(
-            child: Text(
-              "Capture",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 17.0,
-              ),
-            ),
-            onPressed: (){
-              locator<NavigationService>().navigateTo(CaptureRoute);
-              print("pressed");
-            },
-          ),
-*/
           IconButton(
-            icon: Icon(
-              Icons.search,
-            ),
+            icon: Icon( Icons.search),
             color: Colors.black,
             onPressed: (){
               print("Pressed");

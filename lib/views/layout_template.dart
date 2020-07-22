@@ -15,13 +15,13 @@ class LayoutTemplate extends StatelessWidget {
           //padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
           alignment: Alignment.topCenter,
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 1230),
+            constraints: BoxConstraints(maxWidth: 690),
             child: Column(
               children: <Widget>[
-                NavigationBar(),
-                Expanded(
-                  child: child, 
-                )
+                NavigationBar(), 
+                    Expanded(
+                      child: child, 
+                    )
               ],
             ),
           ),
