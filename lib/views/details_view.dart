@@ -22,6 +22,7 @@ class DetailsView extends StatelessWidget {
         children: <Widget>[
           model.captureds == null
               ? CircularProgressIndicator()
+//               CircularProgressIndicator()
               : DetailListEdit(details: model.captureds),
         ],
       )),

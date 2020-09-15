@@ -1,7 +1,6 @@
 import 'package:captube/datamodels/captured_item_model.dart';
 import 'package:captube/widgets/detail_list/detail_item_removable.dart';
 import 'package:flutter/material.dart';
-import 'package:captube/datamodels/detail_item_model.dart';
 
 class DetailListEdit extends StatelessWidget {
   final List<CapturedItemModel> details;

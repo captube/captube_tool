@@ -6,17 +6,6 @@ import 'package:captube/datamodels/detail_item_model.dart';
 class Api {
   static const String _apiEndpoint = 'http://captube.net/api/v2';
 
-  Future<dynamic> getLanguages(url) async {
-    var response;
-    String _url = url.toString();
-    response = await http.get('$_apiEndpoint/capture/language?url=$_url');
-    if (response.statusCode == 200) {
-      var languages = (json.decode(response.body)['languages'] as List);
-      return languages;
-    }
-    return 'Could not fetch the episodes at this time';
-  }
-
   Future<dynamic> fetchData(String url, String lang) async {
     var _apiURL = "http://captube.net/api/v2/capture";
     print('Calling API /w url: $url && $lang');

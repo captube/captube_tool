@@ -1,6 +1,6 @@
 import 'package:captube/datamodels/captured_item_model.dart';
 import 'package:flutter/material.dart';
-import 'package:captube/datamodels/detail_item_model.dart';
+//import 'package:captube/datamodels/detail_item_model.dart';
 
 class DetailItemRemov extends StatefulWidget {
   final CapturedItemModel model;
@@ -27,7 +27,7 @@ class _DetailItemRemove extends State<DetailItemRemov> {
 
   @override
   Widget build(BuildContext context) {
-    bool _deleted = false;
+    //bool _deleted = false;
     //deleted? deleted=false: deleted=true;
     return Row(
         mainAxisAlignment: MainAxisAlignment.center,

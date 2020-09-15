@@ -16,37 +16,53 @@ class CaptureView extends StatefulWidget {
 }
 
 class _CaptureViewState extends State<CaptureView> {
-  final _api = locator<Api>();
+  //final _api = locator<Api>();
   final NavigationService _navigationService = locator<NavigationService>();
 
   //bool _isLangChecked = false;
   String _valLanguage;
-  bool _isLangLoaded = false;
+  bool _isLangChecked = false;
   bool _isLangSelected = false;
-  var _captured;
-  bool _isLoading = false;
-  var _data = "";
+  bool _isLangNotNull = false;
+  //var _captured;
+  bool _isLangLoading = false;
+  //var _data = "";
   List<dynamic> _dataLang = List();
-  var _apiURL = 'http://captube.net/api/v2/capture';
+  //var _apiURL = 'http://captube.net/api/v2/capture';
   String _url;
 
   static const String _apiEndpoint = 'http://captube.net/api/v2';
 
   void getLanguages(url) async {
     setState(() {
-      _isLangLoaded = false;
+      _isLangLoading = true;
+      _isLangChecked = false;
     });
 
     String _url = url.toString();
 
     final response = await http.get('$_apiEndpoint/capture/language?url=$_url');
-    var listData = jsonDecode(response.body);
-    setState(() {
-      _dataLang = listData['languages'] as List;
-      print(_dataLang);
-      _isLangLoaded = true;
-    });
-    //return 'Could not fetch the episodes at this time';
+    if (response.statusCode == 200) {
+      var listData = jsonDecode(response.body);
+      setState(() {
+        _dataLang = listData['languages'] as List;
+        print(_dataLang);
+        _isLangNotNull = true;
+        _isLangChecked = true;
+        _isLangSelected = false;
+        _isLangLoading = false;
+      });
+      //return 'Could not fetch the episodes at this time';
+    } else {
+      setState(() {
+        //_dataLang = listData['languages'] as List;
+        print("not 200 response");
+        _isLangNotNull = false;
+        _isLangChecked = true;
+        _isLangSelected = false;
+        _isLangLoading = false;
+      });
+    }
   }
 
   @override
@@ -64,41 +80,64 @@ class _CaptureViewState extends State<CaptureView> {
         TextField(
           controller: _controller,
           decoration: InputDecoration(
-            labelText: "Video URL",
+            //labelText: "Video URL",
+            hintText: "Video URL",
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5.0),
+              borderRadius: BorderRadius.circular(2.0),
+            ),
+            suffixIcon: Padding(
+              padding: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+              child: _isLangLoading
+                  ? CircularProgressIndicator()
+                  : IconButton(
+                      icon: Icon(Icons.subtitles),
+                      onPressed: () {
+                        print('press!!');
+                        _url = _controller.text.toString();
+                        getLanguages(_url);
+                      } //=> _handleSubmitted(_textController.text)),
+                      ),
+            ),
+            suffixIconConstraints: BoxConstraints(
+              minHeight: 25,
+              minWidth: 25,
             ),
           ),
         ),
         SizedBox(
           height: 20.0,
         ),
-        RaisedButton(
-          child: Text("Language"),
-          onPressed: () {
-            _url = _controller.text.toString();
-            getLanguages(_url);
-          },
-        ),
-        _isLangLoaded
-            ? DropdownButton(
-                hint: Text("language"),
-                value: _valLanguage,
-                items:
-                    _dataLang.map<DropdownMenuItem<dynamic>>((dynamic value) {
-                  return DropdownMenuItem<dynamic>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _valLanguage = value;
-                    print(_valLanguage);
-                    _isLangSelected = true;
-                  });
+        /*_isLangLoading
+            ? CircularProgressIndicator()
+            : RaisedButton(
+                child: Text("Language"),
+                onPressed: () {
+                  print('press!!');
+                  _url = _controller.text.toString();
+                  getLanguages(_url);
                 },
-              )
+              ),*/
+        _isLangChecked
+            ? _isLangNotNull
+                ? DropdownButton(
+                    hint: Text("language"),
+                    value: _valLanguage,
+                    items: _dataLang
+                        .map<DropdownMenuItem<dynamic>>((dynamic value) {
+                      return DropdownMenuItem<dynamic>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _valLanguage = value;
+                        print(_valLanguage);
+                        _isLangSelected = true;
+                      });
+                    },
+                  )
+                : Text("\nThe URL don't have subtitle info!")
             : SizedBox(
                 height: 20.0,
               ),

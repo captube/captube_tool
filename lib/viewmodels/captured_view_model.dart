@@ -6,6 +6,9 @@ import 'package:captube/services/api.dart';
 class CapturedViewModel extends ChangeNotifier {
   final _api = locator<Api>();
 
+  List<String> _ids;
+  List<String> get ids => _ids;
+
   List<CapturedItemModel> _captureds;
   List<CapturedItemModel> get captureds => _captureds;
 
