@@ -19,8 +19,10 @@ class _DetailItemRemove extends State<DetailItemRemov> {
     setState(() {
       if (_visibiliT) {
         _visibiliT = false;
+        widget.model.visible = false;
       } else {
         _visibiliT = true;
+        widget.model.visible = true;
       }
     });
   }

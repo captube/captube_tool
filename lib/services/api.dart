@@ -24,6 +24,7 @@ class Api {
       if (response.statusCode == 200) {
         _data = json.decode(response.body)['id'];
         print(_data);
+
         _captured = (json.decode(response.body)['captureItems'] as List)
             .map((detail) => CapturedItemModel.fromJson(detail))
             .toList();
@@ -50,7 +51,7 @@ class Api {
       var details = (json.decode(response2.body)['items'] as List)
           .map((detail) => DetailItemModel.fromJson(detail))
           .toList();
-      details.sort((a, b) => a.startTime.compareTo(b.startTime));
+      //details.sort((a, b) => a.startTime.compareTo(b.startTime));
       return details;
     }
 

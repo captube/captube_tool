@@ -11,7 +11,15 @@ class CapturedView extends StatelessWidget {
   const CapturedView({Key key, this.url, this.lang}) : super(key: key);
 
   @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    // TODO: implement toString
+    return "captured";
+  }
+
+  @override
   Widget build(BuildContext context) {
+    //_ids = fetchIDs(url, lang);
+
     return ViewModelProvider<CapturedViewModel>.withConsumer(
       viewModel: CapturedViewModel(),
       onModelReady: (model) => model.getCaptured(url, lang),

@@ -18,10 +18,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       var url = routingData['url'].toString(); // Get the id from the data.
       var lang = routingData['lang'].toString(); // Get the id from the data.
       return _getPageRoute(CapturedView(url: url, lang: lang), settings);
-    case EpisodeDetailsRoute:
+    case ArchiveRoute:
       var id = routingData['id'].toString(); // Get the id from the data.
       //var id = int.tryParse(routingData['id']); // Get the id from the data.
-      return _getPageRoute(DetailsView(url: id), settings);
+      return _getPageRoute(DetailsView(id: id), settings);
     default:
       return _getPageRoute(CaptureView(), settings);
   }

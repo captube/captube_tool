@@ -12,6 +12,12 @@ class CaptureView extends StatefulWidget {
   final String title;
 
   @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    // TODO: implement toString
+    return "capture";
+  }
+
+  @override
   _CaptureViewState createState() => _CaptureViewState();
 }
 

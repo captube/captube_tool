@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       ),
       //home: LayoutTemplate(),
       builder: (context, child) => LayoutTemplate(
-        child: child,
+        childView: child,
       ),
       navigatorKey: locator<NavigationService>().navigatorKey,
       onGenerateRoute: generateRoute,
