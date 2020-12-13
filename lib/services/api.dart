@@ -6,41 +6,44 @@ import 'package:captube/datamodels/detail_item_model.dart';
 class Api {
   static const String _apiEndpoint = 'http://captube.net/api/v2';
 
-  Future<dynamic> fetchData(String url, String lang) async {
-    var _apiURL = "http://captube.net/api/v2/capture";
-    print('Calling API /w url: $url && $lang');
-    var response;
-    var _data;
-    var _captured;
-    try {
-      response = await http.post(
-        _apiURL,
-        body: jsonEncode({
-          'url': '$url',
-          'language': '$lang',
-        }),
-        headers: {'Content-Type': "application/json"},
-      );
-      if (response.statusCode == 200) {
-        _data = json.decode(response.body)['id'];
-        print(_data);
+  // Future<dynamic> fetchData(String url, String lang) async {
+  //   var _apiURL = "http://captube.net/api/v2/capture";
+  //   print('Calling API /w url: $url && $lang');
+  //   var response;
+  //   var _data;
+  //   //var _captured2;
+  //   var _captured1;
+  //   //var _captured;
+  //   try {
+  //     response = await http.post(
+  //       _apiURL,
+  //       body: jsonEncode({
+  //         'url': '$url',
+  //         'language': '$lang',
+  //       }),
+  //       headers: {'Content-Type': "application/json"},
+  //     );
+  //     if (response.statusCode == 200) {
+  //       _data = json.decode(response.body)['id'];
+  //       print(_data);
 
-        _captured = (json.decode(response.body)['captureItems'] as List)
-            .map((detail) => CapturedItemModel.fromJson(detail))
-            .toList();
-        //_details.sort((a, b) => a.startTime.compareTo(b.startTime));
-
-        print("Response: ${response.statusCode}");
-        print("     ?     ");
-        return _captured;
-      } else {
-        throw Exception('Failed to load data');
-      }
-    } catch (err) {
-      _data = '$err';
-      print('Caught error: $err');
-    }
-  }
+  //       _captured1 = (json.decode(response.body)['captureItems'] as List)
+  //           .map((detail) => CapturedItemModel.fromJson(detail))
+  //           .toList();
+  //       //_captured1.sort();
+  //       //_captured1.sort((a, b) => a.timestamp.compareTo(b.timestamp));
+  //       print("Response: ${response.statusCode}");
+  //       print("     ?     ");
+  //       return _captured1;
+  //     } else {
+  //       return response.body;
+  //       throw Exception('Failed to load data');
+  //     }
+  //   } catch (err) {
+  //     _data = '$err';
+  //     print('Caught error: $err');
+  //   }
+  // }
 
   Future<dynamic> getDetails(id) async {
     var response2;
@@ -51,7 +54,7 @@ class Api {
       var details = (json.decode(response2.body)['items'] as List)
           .map((detail) => DetailItemModel.fromJson(detail))
           .toList();
-      //details.sort((a, b) => a.startTime.compareTo(b.startTime));
+      details.sort((a, b) => a.timestamp.compareTo(b.timestamp));
       return details;
     }
 

@@ -21,9 +21,9 @@ class MyApp extends StatelessWidget {
         textTheme: Theme.of(context).textTheme.apply(fontFamily: 'Open Sans'),
       ),
       //home: LayoutTemplate(),
-      builder: (context, child) => LayoutTemplate(
-        childView: child,
-      ),
+      //builder: (context, child) => LayoutTemplate(
+      //  childView: child,
+      //),
       navigatorKey: locator<NavigationService>().navigatorKey,
       onGenerateRoute: generateRoute,
       initialRoute: CaptureRoute,

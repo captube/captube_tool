@@ -31,6 +31,8 @@ dependencies:
   cached_network_image: ^2.2.0
   youtube_video_validator: ^1.1.0
   image: ^2.1.18
+  url_launcher:
+  clipboard: ^0.1.2+8
 
 dev_dependencies:
   flutter_test:

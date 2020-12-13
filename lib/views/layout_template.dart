@@ -38,7 +38,7 @@ class LayoutTemplate extends StatelessWidget {
                   icon: Icon(Icons.share),
                   backgroundColor: Colors.red,
                 ),
-                visible: true,
+                visible: false,
               ),
             ));
   }

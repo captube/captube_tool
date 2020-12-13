@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:captube/datamodels/detail_item_model.dart';
 import 'package:captube/widgets/detail_list/detail_item.dart';
+import 'dart:core';
 
 class DetailList extends StatelessWidget {
-  final List<DetailItemModel> details;
+  List<DetailItemModel> details;
   DetailList({this.details});
 
   @override

@@ -1,17 +1,19 @@
-import 'package:captube/datamodels/captured_item_model.dart';
+//import 'package:captube/datamodels/captured_item_model.dart';
 import 'package:flutter/material.dart';
 //import 'package:captube/datamodels/detail_item_model.dart';
 
-class DetailItemRemov extends StatefulWidget {
-  final CapturedItemModel model;
-  const DetailItemRemov({Key key, this.model}) : super(key: key);
+class DetailItemRemov {
+  String url;
+  bool value;
 
-  @override
-  _DetailItemRemove createState() => _DetailItemRemove();
+  DetailItemRemov({
+    @required this.url,
+    this.value = false,
+  });
 }
 
 //bool _deleted = false;
-
+/*
 class _DetailItemRemove extends State<DetailItemRemov> {
   bool _visibiliT = true;
 
@@ -35,18 +37,34 @@ class _DetailItemRemove extends State<DetailItemRemov> {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
+          Padding(
+            child: Checkbox(
+                value: _visibiliT,
+                onChanged: (val) {
+                  setState(() {
+                    _visibiliT = val;
+                    if (_visibiliT) {
+                      widget.model.visible = false;
+                    } else {
+                      widget.model.visible = true;
+                    }
+                  });
+                }),
+            padding: EdgeInsets.only(left: 15.0, right: 15.0),
+          ),
           Expanded(
-            child: //Image.network(widget.model.url),
-                _visibiliT ? Image.network(widget.model.imageUrl) : SizedBox(),
+            child: Image.network(widget.model.url),
+            //_visibiliT ? Image.network(widget.model.url) : SizedBox(),
             /*,width: 640, height: 360*/
           ),
-          IconButton(
-              icon: _visibiliT ? Icon(Icons.delete_forever) : Icon(Icons.add),
-              onPressed: () {
-                print("$_visibiliT");
-                _changed();
-                print(" $_visibiliT");
-              }),
+          //IconButton(
+          //    icon: _visibiliT ? Icon(Icons.delete_forever) : Icon(Icons.add),
+          //    onPressed: () {
+          //      print("$_visibiliT");
+          //      _changed();
+          //      print(" $_visibiliT");
+          //    }),
         ]);
   }
 }
+*/
