@@ -6,7 +6,8 @@ import 'package:captube/services/navigation_service.dart';
 import 'package:captube/viewmodels/captured_view_model.dart';
 import 'package:captube/widgets/detail_list/detail_item_removable.dart';
 import 'package:flutter/material.dart';
-import 'package:provider_architecture/viewmodel_provider.dart';
+//import 'package:provider_architecture/viewmodel_provider.dart';
+import 'package:stacked/stacked.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -141,9 +142,8 @@ class _CapturedViewState extends State<CapturedView> {
                             backgroundColor: Colors.white,
                           )),
                       Expanded(
-                          child: ViewModelProvider<
-                                  CapturedViewModel>.withConsumer(
-                              viewModel: cvm,
+                          child: ViewModelBuilder<CapturedViewModel>.reactive(
+                              viewModelBuilder: () => cvm,
                               onModelReady: (model) =>
                                   model.getCaptured(widget.url, widget.lang),
                               builder: (context, model, child) =>
@@ -163,7 +163,31 @@ class _CapturedViewState extends State<CapturedView> {
                                                     CircularProgressIndicator()
                                                   ])
                                                 : model.captureds == null
-                                                    ? Text(model.err)
+                                                    ? Column(children: <Widget>[
+                                                        Text(model.err),
+                                                        AlertDialog(
+                                                          title: Row(children: [
+                                                            Icon(Icons.error),
+                                                            Text(
+                                                                '  Something went wrong ')
+                                                          ]),
+                                                          content: Text(
+                                                              'Please report the error to (captube.help@gmail.com)'), // Message which will be pop up on the screen
+                                                          // Action widget which will provide the user to acknowledge the choice
+                                                          actions: [
+                                                            TextButton(
+                                                              // FlatButton widget is used to make a text to work like a button
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context,
+                                                                    true);
+                                                              }, // function used to perform after pressing the button
+                                                              child: Text(
+                                                                  'Go back'),
+                                                            )
+                                                          ],
+                                                        )
+                                                      ])
                                                     : Column(children: <Widget>[
                                                         Container(height: 10),
                                                         buildToggleCheckbox(

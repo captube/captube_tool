@@ -15,7 +15,8 @@ import 'package:flutter/material.dart';
 //import 'package:captube/widgets/detail_list/details_list.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as ImageDart;
-import 'package:provider_architecture/viewmodel_provider.dart';
+//import 'package:provider_architecture/viewmodel_provider.dart';
+import 'package:stacked/stacked.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -43,9 +44,9 @@ class _DetailsViewState extends State<DetailsView> {
                     child: Scrollbar(
                         isAlwaysShown: true,
                         controller: _scrollController,
-                        child: ViewModelProvider<
-                                EpisodeDetailsViewModel>.withConsumer(
-                            viewModel: EpisodeDetailsViewModel(),
+                        child: ViewModelBuilder<
+                                EpisodeDetailsViewModel>.reactive(
+                            viewModelBuilder: () => EpisodeDetailsViewModel(),
                             onModelReady: (model) => model.getDetail(widget.id),
                             builder: (context, model, child) =>
                                 Column(children: <Widget>[
