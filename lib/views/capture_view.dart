@@ -105,6 +105,11 @@ class _CaptureViewState extends State<CaptureView> {
                                 ),
                                 TextField(
                                   controller: _controller,
+                                  onSubmitted: (String value) {
+                                    print('$value press!!');
+                                    _url = _controller.text.toString();
+                                    getLanguages(_url);
+                                  },
                                   decoration: InputDecoration(
                                     //labelText: "Video URL",
                                     hintText: "Video URL",
