@@ -46,14 +46,32 @@ class _CaptureViewState extends State<CaptureView> {
     final response = await http.get('$_apiEndpoint/capture/language?url=$_url');
     if (response.statusCode == 200) {
       var listData = jsonDecode(response.body);
-      setState(() {
-        _dataLang = listData['languages'] as List;
-        print(_dataLang);
-        _isLangNotNull = true;
-        _isLangChecked = true;
-        _isLangSelected = false;
-        _isLangLoading = false;
-      });
+      //setState(() {
+      //  _dataLang = listData['languages'] as List;
+      //  print(_dataLang);
+      //  _isLangNotNull = true;
+      //  _isLangChecked = true;
+      //  _isLangSelected = false;
+      //  _isLangLoading = false;
+      //});
+      _dataLang = listData['languages'] as List;
+      print(_dataLang);
+      //_dataLang.add("English (auto-generated)");
+      if (_dataLang.isEmpty) {
+        setState(() {
+          _isLangNotNull = false;
+          _isLangChecked = true;
+          _isLangSelected = false;
+          _isLangLoading = false;
+        });
+      } else {
+        setState(() {
+          _isLangNotNull = true;
+          _isLangChecked = true;
+          _isLangSelected = false;
+          _isLangLoading = false;
+        });
+      }
       //return 'Could not fetch the episodes at this time';
     } else {
       setState(() {
@@ -164,7 +182,7 @@ class _CaptureViewState extends State<CaptureView> {
                                                         DropdownButtonHideUnderline(
                                                             child:
                                                                 DropdownButton(
-                                                      hint: Text("language"),
+                                                      hint: Text("select"),
                                                       value: _valLanguage,
                                                       items: _dataLang.map<
                                                               DropdownMenuItem<
