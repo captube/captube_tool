@@ -1,23 +1,25 @@
 import 'dart:convert';
 import 'dart:html' as html;
-import 'package:clipboard/clipboard.dart';
-import 'package:captube/locator.dart';
-import 'package:captube/routing/route_names.dart';
-import 'package:captube/services/navigation_service.dart';
+
 //import 'package:captube/widgets/navigation_bar.dart';
 
 import 'package:captube/datamodels/detail_item_model.dart';
+import 'package:captube/locator.dart';
+import 'package:captube/routing/route_names.dart';
+import 'package:captube/services/navigation_service.dart';
 import 'package:captube/viewmodels/episode_details_view_model.dart';
 import 'package:captube/widgets/detail_list/details_list.dart';
+import 'package:clipboard/clipboard.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 //import 'package:captube/widgets/detail_list/details_list.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as ImageDart;
+import 'package:responsive_builder/responsive_builder.dart';
 //import 'package:provider_architecture/viewmodel_provider.dart';
 import 'package:stacked/stacked.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailsView extends StatefulWidget {
@@ -34,6 +36,8 @@ class _DetailsViewState extends State<DetailsView> {
 
   @override
   Widget build(BuildContext context) {
+    final analytics = FirebaseAnalytics();
+
     return ResponsiveBuilder(
         builder: (context, sizingInformation) => Scaffold(
             backgroundColor: Colors.white,
@@ -56,6 +60,11 @@ class _DetailsViewState extends State<DetailsView> {
                                         centerTitle: true,
                                         title: FlatButton(
                                           onPressed: () {
+                                            analytics.logEvent(
+                                                name: "goBackCapture",
+                                                parameters: {
+                                                  "view": "archive"
+                                                });
                                             locator<NavigationService>()
                                                 .navigateTo(CaptureRoute);
                                             print("pressed");
@@ -76,6 +85,13 @@ class _DetailsViewState extends State<DetailsView> {
                                             icon: Icon(Icons.copy),
                                             color: Colors.black,
                                             onPressed: () {
+                                              analytics.logEvent(
+                                                  name: "shareViaUrl",
+                                                  parameters: {
+                                                    "view": "archive",
+                                                    "id": widget.id
+                                                  });
+
                                               final url = widget.id;
                                               FlutterClipboard.copy(
                                                       'http://captube.net/#/archive?id=$url')
@@ -96,6 +112,12 @@ class _DetailsViewState extends State<DetailsView> {
                                                       Icon(Icons.file_download),
                                                   color: Colors.black,
                                                   onPressed: () {
+                                                    analytics.logEvent(
+                                                        name: "saveAsImageFile",
+                                                        parameters: {
+                                                          "view": "archive",
+                                                          "id": widget.id
+                                                        });
                                                     mergeImages(model.details);
                                                   },
                                                 )
@@ -127,6 +149,15 @@ class _DetailsViewState extends State<DetailsView> {
                                                     recognizer:
                                                         TapGestureRecognizer()
                                                           ..onTap = () async {
+                                                            analytics.logEvent(
+                                                                name:
+                                                                    "playYoutube",
+                                                                parameters: {
+                                                                  "view":
+                                                                      "archive",
+                                                                  "url":
+                                                                      model.url
+                                                                });
                                                             final url =
                                                                 model.url;
                                                             if (await canLaunch(

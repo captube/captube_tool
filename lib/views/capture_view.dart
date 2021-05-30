@@ -1,13 +1,15 @@
 import 'dart:convert';
+
+import 'package:captube/locator.dart';
 import 'package:captube/routing/route_names.dart';
 import 'package:captube/services/navigation_service.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/gestures.dart';
-import 'package:http/http.dart' as http;
-import 'package:url_launcher/url_launcher.dart';
-import 'package:captube/locator.dart';
 //import 'package:captube/services/api.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CaptureView extends StatefulWidget {
   CaptureView({Key key, this.title}) : super(key: key);
@@ -26,10 +28,13 @@ class _CaptureViewState extends State<CaptureView> {
   bool _isLangChecked = false;
   bool _isLangSelected = false;
   bool _isLangNotNull = false;
+
   //var _captured;
   bool _isLangLoading = false;
+
   //var _data = "";
   List<dynamic> _dataLang = List();
+
   //var _apiURL = 'http://captube.net/api/v2/capture';
   String _url;
 
@@ -89,6 +94,8 @@ class _CaptureViewState extends State<CaptureView> {
 
   @override
   Widget build(BuildContext context) {
+    final analytics = FirebaseAnalytics();
+
     return ResponsiveBuilder(
         builder: (context, sizingInformation) => Scaffold(
             backgroundColor: Colors.white,
@@ -142,6 +149,12 @@ class _CaptureViewState extends State<CaptureView> {
                                           : IconButton(
                                               icon: Icon(Icons.arrow_right_alt),
                                               onPressed: () {
+                                                analytics.logEvent(
+                                                    name: "getLanguages",
+                                                    parameters: {
+                                                      "view": "capture",
+                                                      "url": _url
+                                                    });
                                                 print('press!!');
                                                 _url =
                                                     _controller.text.toString();
@@ -224,6 +237,13 @@ class _CaptureViewState extends State<CaptureView> {
                                               ),
                                               child: Text("Capture!"),
                                               onPressed: () {
+                                                analytics.logEvent(
+                                                    name: "capture",
+                                                    parameters: {
+                                                      "url": _url,
+                                                      "view": "capture",
+                                                      "language": _valLanguage
+                                                    });
                                                 _navigationService.navigateTo(
                                                     CapturedRoute,
                                                     queryParams: {
@@ -257,6 +277,13 @@ class _CaptureViewState extends State<CaptureView> {
                                                 ..onTap = () async {
                                                   final url =
                                                       'https://www.notion.so/hyoeunlee/CapTube-Terms-Conditions-3798069facde49b6985f2f99b98af973';
+                                                  analytics.logEvent(
+                                                      name:
+                                                          "termsAndConditions",
+                                                      parameters: {
+                                                        "view": "capture",
+                                                        "url": url
+                                                      });
                                                   if (await canLaunch(url)) {
                                                     await launch(
                                                       url,
