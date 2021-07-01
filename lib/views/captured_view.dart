@@ -8,7 +8,7 @@ import 'package:captube/viewmodels/captured_view_model.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:responsive_builder/responsive_builder.dart';
+//import 'package:responsive_builder/responsive_builder.dart';
 //import 'package:provider_architecture/viewmodel_provider.dart';
 import 'package:stacked/stacked.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -97,148 +97,149 @@ class _CapturedViewState extends State<CapturedView> {
     final analytics = FirebaseAnalytics();
     //_ids = fetchIDs(url, lang);
 
-    return ResponsiveBuilder(
-      builder: (context, sizingInformation) => Scaffold(
+    return Scaffold(
         backgroundColor: Colors.white,
-        body: Container(
-            alignment: Alignment.topCenter,
-            child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 600),
-                child: Scrollbar(
-                    isAlwaysShown: true,
-                    controller: _scrollController,
-                    child: Column(children: <Widget>[
-                      Padding(
-                          padding: EdgeInsets.only(bottom: 5.0),
-                          child: AppBar(
-                            centerTitle: true,
-                            title: //FlatButton(
-                                //onPressed: () {
-                                //  locator<NavigationService>()
-                                //      .navigateTo(CaptureRoute);
-                                //  print("pressed");
-                                //},
-                                //child:
-                                Text(
-                              "Select items",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-
-                            //padding: EdgeInsets.only(left: 12.0, right: 12.0),
-                            //),
-                            actions: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.play_circle_fill),
-                                color: Colors.black,
-                                onPressed: () async {
-                                  analytics.logEvent(
-                                      name: "playYoutube",
-                                      parameters: {
-                                        "view": "captured",
-                                        "url": widget.url
-                                      });
-                                  if (await canLaunch(widget.url)) {
-                                    await launch(
-                                      widget.url,
-                                      forceSafariVC: false,
-                                    );
-                                  }
-                                },
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.share),
-                                color: Colors.black,
-                                onPressed: () {
-                                  getID(analytics);
-                                },
-                              ),
-                            ],
-                            elevation: 5.0,
-                            backgroundColor: Colors.white,
-                          )),
-                      Expanded(
-                          child: ViewModelBuilder<CapturedViewModel>.reactive(
-                              viewModelBuilder: () => cvm,
-                              onModelReady: (model) =>
-                                  model.getCaptured(widget.url, widget.lang),
-                              builder: (context, model, child) =>
-                                  SingleChildScrollView(
-                                      controller: _scrollController,
-                                      child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            model.isProgressing
-                                                //model.captureds == null
-                                                ? Column(children: <Widget>[
-                                                    SizedBox(
-                                                      height: 100.0,
-                                                    ),
-                                                    CircularProgressIndicator()
-                                                  ])
-                                                : model.captureds == null
-                                                    ? Column(children: <Widget>[
-                                                        Text(model.err),
-                                                        AlertDialog(
-                                                          title: Row(children: [
-                                                            Icon(Icons.error),
-                                                            Text(
-                                                                '  Something went wrong ')
-                                                          ]),
-                                                          content: Text(
-                                                              'Please report the error to (captube.help@gmail.com)'),
-                                                          // Message which will be pop up on the screen
-                                                          // Action widget which will provide the user to acknowledge the choice
-                                                          actions: [
-                                                            TextButton(
-                                                              // FlatButton widget is used to make a text to work like a button
-                                                              onPressed: () {
-                                                                analytics.logEvent(
-                                                                    name:
-                                                                        "goBackCapture",
-                                                                    parameters: {
-                                                                      "view":
-                                                                          "captured",
-                                                                    });
-                                                                Navigator.pop(
-                                                                    context,
-                                                                    true);
-                                                              },
-                                                              // function used to perform after pressing the button
-                                                              child: Text(
-                                                                  'Go back'),
-                                                            )
-                                                          ],
-                                                        )
-                                                      ])
-                                                    : Column(children: <Widget>[
-                                                        Container(height: 10),
-                                                        buildToggleCheckbox(
-                                                            visible_all),
-                                                        Divider(),
-                                                        ...model.captureds
-                                                            .map(
-                                                                buildSingleCheckbox)
-                                                            .toList(),
-                                                        Container(height: 65),
-                                                      ])
-                                          ]))))
-                    ])))),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            getID(analytics);
-          },
-          label: Text('Next'),
-          icon: Icon(Icons.share),
-          backgroundColor: Colors.red,
+        //body: Container(
+        //    alignment: Alignment.topCenter,
+        //child: ConstrainedBox(
+        //constraints: BoxConstraints(maxWidth: 600),
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            "Select items",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.play_circle_fill),
+              color: Colors.black,
+              onPressed: () async {
+                analytics.logEvent(
+                    name: "playYoutube",
+                    parameters: {"view": "captured", "url": widget.url});
+                if (await canLaunch(widget.url)) {
+                  await launch(
+                    widget.url,
+                    forceSafariVC: false,
+                  );
+                }
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.share),
+              color: Colors.black,
+              onPressed: () {
+                getID(analytics);
+              },
+            ),
+          ],
+          elevation: 5.0,
+          backgroundColor: Colors.white,
         ),
-      ),
-    );
+        body: Stack(children: <Widget>[
+          Scrollbar(
+              showTrackOnHover: true,
+              isAlwaysShown: true,
+              controller: _scrollController,
+              //child: Center(
+              //child:
+              //children: <Widget>[
+              //     Padding(
+              //     padding: EdgeInsets.only(bottom: 5.0),
+              // ),
+              //ConstrainedBox(
+              //constraints: BoxConstraints(maxWidth: 600),
+              child: Expanded(
+                  child: ViewModelBuilder<CapturedViewModel>.reactive(
+                      viewModelBuilder: () => cvm,
+                      onModelReady: (model) =>
+                          model.getCaptured(widget.url, widget.lang),
+                      builder: (context, model, child) => SingleChildScrollView(
+                          controller: _scrollController,
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                model.isProgressing
+                                    //model.captureds == null
+                                    ? Center(
+                                        child: Column(children: <Widget>[
+                                        SizedBox(
+                                          height: 100.0,
+                                        ),
+                                        CircularProgressIndicator()
+                                      ]))
+                                    : model.captureds == null
+                                        ? Column(children: <Widget>[
+                                            Text(model.err),
+                                            AlertDialog(
+                                              title: Row(children: [
+                                                Icon(Icons.error),
+                                                Text('  Something went wrong ')
+                                              ]),
+                                              content: Text(
+                                                  'Please report the error to (captube.help@gmail.com)'),
+                                              // Message which will be pop up on the screen
+                                              // Action widget which will provide the user to acknowledge the choice
+                                              actions: [
+                                                TextButton(
+                                                  // FlatButton widget is used to make a text to work like a button
+                                                  onPressed: () {
+                                                    analytics.logEvent(
+                                                        name: "goBackCapture",
+                                                        parameters: {
+                                                          "view": "captured",
+                                                        });
+                                                    Navigator.pop(
+                                                        context, true);
+                                                  },
+                                                  // function used to perform after pressing the button
+                                                  child: Text('Go back'),
+                                                )
+                                              ],
+                                            )
+                                          ])
+                                        : Column(children: <Widget>[
+                                            Container(height: 10),
+                                            buildToggleCheckbox(visible_all),
+                                            Divider(),
+                                            ...model.captureds
+                                                .map(buildSingleCheckbox)
+                                                .toList(),
+                                            Container(height: 40),
+                                          ])
+                              ])))) //)//)
+              //]
+              ),
+          Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: FloatingActionButton.extended(
+                    onPressed: () {
+                      getID(analytics);
+                    },
+                    label: Text('Subtitle'),
+                    icon: Icon(Icons.subtitles),
+                    backgroundColor: Colors.red,
+                  ))),
+          Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: FloatingActionButton.extended(
+                    onPressed: () {
+                      getID(analytics);
+                    },
+                    label: Text('Next'),
+                    icon: Icon(Icons.share),
+                    backgroundColor: Colors.red,
+                  ))),
+        ]));
   }
 
   Widget buildSingleCheckbox(CapturedItemModel cim) => buildCheckbox(
@@ -263,7 +264,10 @@ class _CapturedViewState extends State<CapturedView> {
     @required VoidCallback onClicked,
   }) =>
       CheckboxListTile(
-        title: Image.network(cim.url),
+        title: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 640, maxHeight: 360),
+          child: Image.network(cim.url),
+        ),
         controlAffinity: ListTileControlAffinity.leading,
         value: cim.visible,
         onChanged: (value) => onClicked(),
